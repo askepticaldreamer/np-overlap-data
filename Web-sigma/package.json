@@ -2,11 +2,13 @@
   "name": "Web-sigma",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://askepticaldreamer.github.io/np-overlap-data",
   "dependencies": {
     "@react-sigma/core": "^3.1.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "gh-pages": "^5.0.0",
     "graphology": "^0.25.1",
     "graphology-gexf": "^0.10.3",
     "lodash": "^4.17.21",
@@ -21,7 +23,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
