@@ -8,10 +8,20 @@ import RawGraph from './2-2023.gexf'
 import { SigmaContainer } from "@react-sigma/core";
 import "@react-sigma/core/lib/react-sigma.min.css";
 import { useRegisterEvents, useSigma } from '@react-sigma/core';
+import { Settings } from "sigma/settings";
+import { NodeDisplayData, PartialButFor, PlainObject } from "sigma/types";
+import DescriptionPanel from './DescriptionPanel';
+import SearchPanel from './SearchPanel'
+import { drawHover } from './utilities/drawHover';
+import { FiltersState } from '../types';
 
 const GraphData: FC = () => {
     const [graph, setGraph] = useState(LoadGexfToSigma(RawGraph));
     const [ nodeIsSelected, setNodeIsSelected ] = useState(false);
+    const [ filtersState, setFiltersState ] = useState<FiltersState>({
+        clusters: {},
+        tags: {}
+    });
 
     const GraphEvents: React.FC = () => {
         const registerEvents = useRegisterEvents();
@@ -114,8 +124,13 @@ const GraphData: FC = () => {
                 labelDensity: 1,
                 labelRenderedSizeThreshold: 3,
                 labelGridCellSize: 10,
+                hoverRenderer: drawHover
             }}>
             <GraphEvents/>
+            <div className="panels">
+                <SearchPanel filters={filtersState} />
+                <DescriptionPanel />
+            </div>
         </SigmaContainer>
     )
 };
