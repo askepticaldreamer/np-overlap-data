@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/np-overlap-data/static/css/main.98df65f8.css",
+    "main.js": "/np-overlap-data/static/js/main.823d3bad.js",
+    "static/js/787.9b340908.chunk.js": "/np-overlap-data/static/js/787.9b340908.chunk.js",
+    "static/media/2-2023.gexf": "/np-overlap-data/static/media/2-2023.f8a8f40d57a71f6c5548.gexf",
+    "index.html": "/np-overlap-data/index.html",
+    "main.98df65f8.css.map": "/np-overlap-data/static/css/main.98df65f8.css.map",
+    "main.823d3bad.js.map": "/np-overlap-data/static/js/main.823d3bad.js.map",
+    "787.9b340908.chunk.js.map": "/np-overlap-data/static/js/787.9b340908.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.98df65f8.css",
+    "static/js/main.823d3bad.js"
+  ]
+}
