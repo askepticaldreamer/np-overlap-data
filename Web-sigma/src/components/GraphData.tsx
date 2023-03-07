@@ -13,6 +13,7 @@ import SearchPanel from './SearchPanel'
 import { drawHover } from './utilities/drawHover';
 import { Cluster, FiltersState } from '../types';
 import ClustersPanel from './ClustersPanel';
+import ChannelPanel from './ChannelPanel';
 
 const GraphData: FC = () => {
     var emptyClusters: Cluster[] = [];
@@ -24,6 +25,7 @@ const GraphData: FC = () => {
     const sigmagraph = new UndirectedGraph();
     const graphRef = useRef(sigmagraph);
     const [ nodeIsSelected, setNodeIsSelected ] = useState(false);
+    const [ focusedNode, setFocusedNode ] = useState("");
     const [ filtersState, setFiltersState ] = useState<FiltersState>({
         clusters: {}
     });
@@ -55,6 +57,7 @@ const GraphData: FC = () => {
                             label: attrs.label,
                             originalLabel: attrs.label,
                             size: attrs.size / 4,
+                            totalChatters: attrs.size,
                             color: attrs.color,
                             cluster: attrs.modularity_class
                         });
@@ -134,6 +137,7 @@ const GraphData: FC = () => {
                 },
                 clickNode: (e) => {
                     setNodeIsSelected(true);
+                    setFocusedNode(e.node);
                     //  show label for neighbors
                     graph.forEachNode((node) => {
                         if (graph.areNeighbors(e.node, node) || e.node == node) {
@@ -245,7 +249,12 @@ const GraphData: FC = () => {
                 hoverRenderer: drawHover
             }}>
             <><GraphEvents /><div className="panels">
-                    <SearchPanel filters={filtersState} />
+                <SearchPanel filters={filtersState} />
+                {nodeIsSelected && (
+                    <ChannelPanel
+                        channel={focusedNode}
+                    />
+                )}
                     <DescriptionPanel />
                     {dataReady && (
                         <ClustersPanel
