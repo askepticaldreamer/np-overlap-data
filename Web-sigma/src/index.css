@@ -197,11 +197,6 @@ p {
   left: 1em;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-}
-
 ul>li {
   margin-top: 0.2em;
 }
@@ -217,4 +212,16 @@ ul>li {
 
 .mouse-pointer {
   cursor: pointer;
+}
+
+nodeInfo{
+  border-bottom: 1px solid #999;
+}
+
+channelName{
+  text-align: center;
+}
+
+th {
+  text-align: left;
 }

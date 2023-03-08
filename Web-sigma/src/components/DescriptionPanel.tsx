@@ -13,9 +13,17 @@ const DescriptionPanel: FC = () => {
                 </>
             }
         >
-            <h2>General</h2>
             <p>
-                This project was inspired by <a href="https://github.com/KiranGershenfeld/VisualizingTwitchCommunities">VisualizingTwitchCommunities</a> and <a href="https://github.com/snoww/TwitchOverlap">TwitchOverlap</a>. This is a graph of the twitch streamers of the NoPixel community. Each node is a twitch channel and each edge represents shared chatters between the two channels.
+                This project was inspired by <a href="https://github.com/snoww/TwitchOverlap">TwitchOverlap</a> and <a href="https://github.com/KiranGershenfeld/VisualizingTwitchCommunities">VisualizingTwitchCommunities</a>. This is a graph of the twitch streamers of the NoPixel community. Each node is a twitch channel and each edge represents shared chatters between the two channels.
+            </p>
+            <h2>Navigation</h2>
+            <p>
+                <ul>
+                    <li>Hover a node to view its edges and all neighbor nodes</li>
+                    <li>Click a node to focus on it and see more info about it</li>
+                    <li>Right click on the graph to reset focus</li>
+                    <li>Selecting or unselecting clusters in the clusters panel will show or hide those clusters from the graph as well as the channel information panel </li>
+                </ul>
             </p>
             <h2>Background</h2>
             <p>
@@ -26,15 +34,7 @@ const DescriptionPanel: FC = () => {
                 My understanding of how the force atlas algorithm works is the individual nodes repulse one another and the edges attract based on their weight. This means that channels with large overlap should be placed closer together. A node's position is determined by the push and pull of other nodes as well as its edges.
             </p>
             <p>
-                Nodes are colored based on the community they were placed in. I believe a channel can have high overlap with another channel but may not be in the same community because they may not share high overlap with the rest of that community. Some nodes may also appear far away from the rest of their community. This is because the overlap they have with members outside of their community is pulling them away. Some nodes on the outskirts do not have any edges at all. This is because I had to filter out low weighted edges.
-            </p>
-            <h2>Navigation</h2>
-            <p>
-                <ul>
-                    <li>Hover a node to view its edges and all neighbor nodes</li>
-                    <li>Click a node to focus on it</li>
-                    <li>Right click to reset focus</li>
-                </ul>
+                Nodes are colored based on the modularity class or community they were placed in. I believe a channel can have high overlap with another channel but may not be in the same community because they may not share high overlap with the rest of that community. Some nodes may also appear far away from the rest of their community. This is because the overlap they have with members outside of their community is pulling them away. Some nodes on the outskirts do not have any edges at all. This is because I had to filter out low weighted edges.
             </p>
         </Panel>
     );

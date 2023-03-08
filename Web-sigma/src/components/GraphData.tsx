@@ -57,9 +57,10 @@ const GraphData: FC = () => {
                             label: attrs.label,
                             originalLabel: attrs.label,
                             size: attrs.size / 4,
-                            totalChatters: attrs.size,
+                            totalChatters: attrs.original_size,
                             color: attrs.color,
-                            cluster: attrs.modularity_class
+                            cluster: attrs.modularity_class,
+                            degree: attrs.degree
                         });
                 });
 
@@ -253,6 +254,7 @@ const GraphData: FC = () => {
                 {nodeIsSelected && (
                     <ChannelPanel
                         channel={focusedNode}
+                        filters={filtersState}
                     />
                 )}
                     <DescriptionPanel />
