@@ -82,6 +82,40 @@ const GraphData: FC = () => {
         return sigmaGraph;
     }
 
+    function selectNode(selectedNode: string) {
+        var graph = graphRef.current;
+        setNodeIsSelected(true);
+        setFocusedNode(selectedNode);
+        //  show label for neighbors
+        graph.forEachNode((node) => {
+            if (graph.areNeighbors(selectedNode, node) || selectedNode == node) {
+                graph.setNodeAttribute(node, "forceLabel", true);
+                graph.setNodeAttribute(node, "label", graph.getNodeAttribute(node, "originalLabel"));
+            }
+            else {
+                graph.setNodeAttribute(node, "forceLabel", false);
+                graph.setNodeAttribute(node, "label", "");
+            }
+        });
+        // hide other edges
+        graph.forEachEdge((edge, attributes, source, target, sourceAttrs, targetAttributes) => {
+            if (selectedNode == source || selectedNode == target) {
+                graph.setEdgeAttribute(edge, "hidden", false)
+                if (selectedNode == source) {
+                    var colorVals = targetAttributes.color.slice(4, -1);
+                    graph.setEdgeAttribute(edge, "color", `rgba(${colorVals},0.1)`);
+                }
+                else {
+                    var colorVals = sourceAttrs.color.slice(4, -1);
+                    graph.setEdgeAttribute(edge, "color", `rgba(${colorVals},0.1)`);
+                }
+            }
+            else {
+                graph.setEdgeAttribute(edge, "hidden", true)
+            }
+        });
+    }
+
     const GraphEvents: React.FC = () => {
         const registerEvents = useRegisterEvents();
         const sigma = useSigma();
@@ -137,36 +171,7 @@ const GraphData: FC = () => {
                     sigma.refresh();
                 },
                 clickNode: (e) => {
-                    setNodeIsSelected(true);
-                    setFocusedNode(e.node);
-                    //  show label for neighbors
-                    graph.forEachNode((node) => {
-                        if (graph.areNeighbors(e.node, node) || e.node == node) {
-                            graph.setNodeAttribute(node, "forceLabel", true);
-                            graph.setNodeAttribute(node, "label", graph.getNodeAttribute(node, "originalLabel"));
-                        }
-                        else {
-                            graph.setNodeAttribute(node, "forceLabel", false);
-                            graph.setNodeAttribute(node, "label", "");
-                        }
-                    });
-                    // hide other edges
-                    graph.forEachEdge((edge, attributes, source, target,  sourceAttrs, targetAttributes) => {
-                        if(e.node == source || e.node == target){
-                            graph.setEdgeAttribute(edge, "hidden", false)
-                            if (e.node == source) {
-                                var colorVals = targetAttributes.color.slice(4, -1);
-                                graph.setEdgeAttribute(edge, "color", `rgba(${colorVals},0.1)`);
-                            }
-                            else {
-                                var colorVals = sourceAttrs.color.slice(4, -1);
-                                graph.setEdgeAttribute(edge, "color", `rgba(${colorVals},0.1)`);
-                            }
-                        }
-                        else{
-                            graph.setEdgeAttribute(edge, "hidden", true)
-                        }
-                    });
+                    selectNode(e.node);
                     sigma.refresh();
                 },
                 rightClick: (event) => {
@@ -255,6 +260,9 @@ const GraphData: FC = () => {
                     <ChannelPanel
                         channel={focusedNode}
                         filters={filtersState}
+                        selectNode={(channelName) =>
+                            selectNode(channelName)
+                        }
                     />
                 )}
                     <DescriptionPanel />

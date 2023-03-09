@@ -5,13 +5,14 @@ import { FiltersState } from "../types";
 import { BsTv } from "react-icons/bs";
 
 const ChannelPanel: FC<{
-    channel: string,
+    channel: string;
     filters: FiltersState;
-}> = ({ channel, filters }) => {
+    selectNode: ( selectedNode: string ) => void
+}> = ({ channel, filters, selectNode }) => {
     const sigma = useSigma();
     const graph = sigma.getGraph();
 
-    var emptyNodeDict= {};
+    var emptyNodeDict = {};
     const [neighbors, setNeighbors] = useState(emptyNodeDict);
 
     useEffect(() => {
@@ -19,13 +20,11 @@ const ChannelPanel: FC<{
     }, [channel,filters]);
 
     function populateData(){
-        var numNeigbors = 0;
         var nodeDict = {};
         graph.forEachNeighbor(channel, (neighbor) => {
             var clusterFilters = Object.keys(filters.clusters);
             clusterFilters.forEach(cluster => {
                 if(graph.getNodeAttribute(neighbor, "cluster") == cluster){
-                    numNeigbors += 1;
                     graph.forEachEdge(channel, (edge, attributes, source, target) => {
                         if (neighbor == source || neighbor == target) {
                             nodeDict[neighbor] = attributes.weight;
@@ -62,7 +61,7 @@ const ChannelPanel: FC<{
             <div id="nodeInfo">
                 <h1 id="channelName"><a href={'https://twitch.tv/' + channel}>{channel}</a></h1>
                 <p>Modularity Class: {graph.getNodeAttribute(channel, "cluster")}</p>
-                <p>Neighbors: {graph.getNodeAttribute(channel, "degree")}</p>
+                <p>Neighbors: {Object.keys(neighbors).length} / {graph.getNodeAttribute(channel, "degree")} visible</p>
                 <p>Chatters: {graph.getNodeAttribute(channel, "totalChatters")}</p>
             </div>
             <table>
@@ -73,7 +72,9 @@ const ChannelPanel: FC<{
                 {Object.keys(neighbors).map((neighborName) => {
                     return (
                         <tr>
-                        <td>
+                        <td className="mouse-pointer" onClick={() => {
+                            selectNode(graph.getNodeAttribute(neighborName, "originalLabel") )
+                        }}>
                             {graph.getNodeAttribute(neighborName, "originalLabel")}
                         </td>
                         <td>
